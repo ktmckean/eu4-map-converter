@@ -1,3 +1,12 @@
+#Eclipse settings
+.settings
+
+#Map files, except one for demonstration purposes
+/map/*
+!/map/terrain.bmp
+
+
+#Defaults
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

@@ -1,0 +1,34 @@
+CURRENT STATUS:  1.  I understand the header of the file format.  (4 hours' work)
+
+To Do:
+
+1:  Figure out how to read a .bmp file
+		-Look up specification
+		-Try making minor or obvious changes to see if I understand
+
+2:  Figure out what files need to be edited to reflect the new map
+		-This might help: https://forum.paradoxplaza.com/forum/index.php?threads/map-guide-v2-0.719527/
+		-AFAIK it isn't just the maps.  There's also a list of positions (i.e., of cities and ports).
+		
+3:  Try to convert the map (Miller:  https://en.wikipedia.org/wiki/Miller_cylindrical_projection).
+		-Trying a regular Mercator might be best at first, though other cylindrical may work
+		-Probably needs to be re-scaled to fit the original pixel size
+		-I imagine a lot of work needs to be done here with edge cases, collisions, etc.
+		-If this doesn't work for all maps, might try doing it with terrain and heightmap
+			and then generating others with GIMP or something.
+			
+4:  Try to account for the Americas being in the wrong latitude.
+		-Will a shift, re-map, un-shift work?
+		-They seem to be about 11-12 degrees too far north:  http://i.imgur.com/Lr80324.jpg
+		-Greenland should not be moved (unless moving it doesn't cause problems.
+		
+5:  Extras:
+		-It would be nice to have my maps overlaid on others to see how good it looks
+			(like these: https://www.reddit.com/r/eu4/comments/2jjuue/if_the_eu4_map_was_more_geographically_correct/clcfa8n/)
+		-Small, manual edits to make things look nicer are likely to be needed.  Hopefully not many.
+		
+6:  Figure out the process for putting mods on Steam Workshop
+		
+		
+Master ModList on Paradox Forums:
+https://forum.paradoxplaza.com/forum/index.php?threads/eu-iv-user-mod-megathread-help-and-info-threads.878631/

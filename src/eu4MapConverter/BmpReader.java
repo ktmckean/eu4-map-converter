@@ -79,12 +79,13 @@ public class BmpReader {
 
 			//Bytes 2-5 are the file size in bytes (though this is unreliable):
 			header += "\nSize: ";
-			header += bbuf.getInt();	//bbuf.getInt returns the integer value of the next 4 bytes
+			int size = bbuf.getInt();
+			header += size;	//bbuf.getInt returns the integer value of the next 4 bytes
 
 			//Bytes 6-9 must be all zeroes:
 			header += "\nFour zeroes: ";
 			header += bbuf.getInt();
-			if(header.charAt(header.length()-1) != 0){
+			if(header.charAt(header.length()-1) != '0'){
 				return false;
 			}
 
@@ -106,6 +107,8 @@ public class BmpReader {
 
 			//Bytes 26-27 give the number of planes in the image (must be 1)
 			header += "\nNumber of planes: ";
+			header += bbuf.getShort();
+			/*
 			int planesAndBits = bbuf.getInt();	//planesAndBits is 2 2-byte integers combined
 			if(bbuf.order() == ByteOrder.LITTLE_ENDIAN){
 				header += planesAndBits%256;	//The modulo keeps only the 2nd 2 bytes
@@ -113,15 +116,19 @@ public class BmpReader {
 			else{
 				header += planesAndBits/256;	//Integer division by 256 keeps only the first 2 bytes
 			}
+			*/
 
 			//Bytes 28-29 give the number of bits per pixel
 			header += "\nBits per pixel: ";
+			header += bbuf.getShort();
+			/*
 			if(bbuf.order() == ByteOrder.LITTLE_ENDIAN){
 				header += planesAndBits/256;		
 			}
 			else{
 				header += planesAndBits%256;
 			}
+			*/
 
 			//Bytes 30-33 give the compression type (0 means none)
 			header += "\nCompression type: ";
@@ -129,7 +136,9 @@ public class BmpReader {
 
 			//Bytes 34-37 give the size (bytes) of the image data
 			header += "\nImage data size: ";
-			header += bbuf.getInt();
+			int dataSize = bbuf.getInt();
+			header += dataSize;
+			header += " (that makes the header size " + (size - dataSize) + ")";
 
 			//Bytes 38-43 give the horizontal resolution in pixels per meter (unreliable)
 			header += "\nHorizontal resolution: ";
@@ -161,8 +170,11 @@ public class BmpReader {
 	}
 
 	public static void main(String[] args){
+//		System.out.println("I ran!");
 		BmpReader read = new BmpReader("map/terrain.bmp");
-		read.printHeader();
+		if(!read.printHeader()){
+			System.out.println("Error!");
+		}
 	}
 
 }

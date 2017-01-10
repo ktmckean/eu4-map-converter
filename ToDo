@@ -1,4 +1,8 @@
-CURRENT STATUS:  1.  I understand the header of the file format.  (4 hours' work)
+CURRENT STATUS:
+
+1.  I understand the header of the file format.  (4 hours' work)
+2.  I have created the Map class, which represents a particular image's data as an object (2 hrs)
+3.	Map.java can now read in an entire file and write out an entire file.  (4 hrs, due to bugs and refactoring.)
 
 To Do:
 

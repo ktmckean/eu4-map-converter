@@ -1,14 +1,26 @@
 CURRENT STATUS:
 
-1.  I understand the header of the file format.  (4 hours' work)
-2.  I have created the Map class, which represents a particular image's data as an object (2 hrs)
-3.	Map.java can now read in an entire file and write out an entire file.  (4 hrs, due to bugs and refactoring.)
+-----:  I understand the header of the file format.  (4 hours' work)
+-----:  I have created the Map class, which represents a particular image's data as an object (2 hrs)
+01-10:	Map.java can now read in an entire file and write out an entire file.  (4 hrs, due to bugs and refactoring.)
+01-10:  I understand the format for how a pixel stores data
+
+
+
+
 
 To Do:
-
-1:  Figure out how to read a .bmp file
-		-Look up specification
-		-Try making minor or obvious changes to see if I understand
+Next:
+On bitmaps:  
+	-Figure out a good way of editing pixels.
+		-Since I'm just doing re-mapping, I can just replace destination r,g,b values with source values.
+		-Ideas:  Pass the rgb individually?  make a pixel class that holds them, and pass that?
+			just pass the address of source pixel, and use that?
+	-The mappings won't be one-to-one.  Source pixels may be smeared over multiple destinations, and multiple
+		sources may map to the same destination.  How do I fill the in-between?
+			-Possible resolution:  value of nearest neighbor with most sources with lowest latitude, then longitude
+			-For overlap:  value with highest # of pixels, with darkest color
+			-Might need to consider what the rest of the province looks like, though I hope not.
 
 2:  Figure out what files need to be edited to reflect the new map
 		-This might help: https://forum.paradoxplaza.com/forum/index.php?threads/map-guide-v2-0.719527/

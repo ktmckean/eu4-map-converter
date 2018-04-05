@@ -1,3 +1,5 @@
+4/4/2018:  Project is unfinished and on indefinite hiatus.  My interests have moved on and I don't do much with EU4 these days.
+
 This is a tool for generating new map projections for use in the game Europa Universalis 4.
 Everything here (except the maps folder) was written by Kerry McKean.
 

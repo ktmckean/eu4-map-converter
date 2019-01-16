@@ -20,13 +20,15 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.io.DataOutputStream;
 
-
+enum Projection {
+	PDX_MILLER		// 	The projection used by Paradox
+}
 
 public class Map {
 
 	//Private variables
 	private String filename;	//The file path from which the map data is read in
-	private String projection = "PDXMiller";	//The type of projection that the map is.  Game files are a modified miller projection
+	private Projection projection = PDX_MILLER;	//The type of projection that the map is.  Game files are a modified miller projection
 	private int height;			//Image height in pixels
 	private int width;			//Image width in pixels
 	private int size;			//File size in bytes
@@ -188,7 +190,7 @@ public class Map {
 		try {
 			
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(outname));
-			
+
 			out.write(fileData);
 			
 			out.close();
@@ -215,7 +217,7 @@ public class Map {
 		
 		meta += "File name: " + filename;
 		meta += "\nFile size: " + size + " bytes";
-		meta += "\nProjection: " + projection;
+		meta += "\nProjection: " + projection.toString();
 		meta += "\nWidth x Height: " + width + " x " + height;
 		meta += "\nPixel size: " + psize;
 		meta += "\nPixel offset: " + offset;
@@ -227,17 +229,18 @@ public class Map {
 	public int getHeight(){
 		return this.height;
 	}
-
 	public int getWidth(){
 		return this.width;
 	}
+	public int getSize() { return this.height * this.width; }
+
 
 	public String getFileName(){
 		return this.filename;		//The path of the file from which the map data was read in.
 	}
 
 	public static void main(String[] args) {
-		Map provinces = new Map("map/provinces.bmp");
+		Map provinces = new Map("map/suez_canal_river.bmp");
 		
 		provinces.writeToFile("output.bmp");
 	}

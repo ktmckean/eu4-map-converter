@@ -21,14 +21,15 @@ import java.nio.ByteOrder;
 import java.io.DataOutputStream;
 
 enum Projection {
-	PDX_MILLER		// 	The projection used by Paradox
+	E_Spherical;
+	E_PdxMiller;		// 	The projection used by Paradox
 }
 
 public class Map {
 
 	//Private variables
 	private String filename;	//The file path from which the map data is read in
-	private Projection projection = PDX_MILLER;	//The type of projection that the map is.  Game files are a modified miller projection
+	private Projection projection = E_PdxMiller;	//The type of projection that the map is.  Game files are a modified miller projection
 	private int height;			//Image height in pixels
 	private int width;			//Image width in pixels
 	private int size;			//File size in bytes
@@ -233,6 +234,7 @@ public class Map {
 		return this.width;
 	}
 	public int getSize() { return this.height * this.width; }
+	public Projection getProjection() {return this.projection; }
 
 
 	public String getFileName(){

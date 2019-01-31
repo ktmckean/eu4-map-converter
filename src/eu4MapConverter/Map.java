@@ -21,8 +21,8 @@ import java.nio.ByteOrder;
 import java.io.DataOutputStream;
 
 enum Projection {
-	E_Spherical;
-	E_PdxMiller;		// 	The projection used by Paradox
+	E_Spherical,
+	E_PdxMiller		// 	The projection used by Paradox
 }
 
 public class Map {
@@ -32,11 +32,11 @@ public class Map {
 	private Projection projection = E_PdxMiller;	//The type of projection that the map is.  Game files are a modified miller projection
 	private int height;			//Image height in pixels
 	private int width;			//Image width in pixels
-	private int size;			//File size in bytes
+	private int size;		//File size in bytes
 	private int offset;			//The byte at which the image data begins.
 	private int psize;			//The size of each pixel, in bits
 	private byte[] fileData;	//All of the data from the original file.
-	private byte[] pix;			//The pixels of the image
+	private int[][] pix;			//The pixels of the image
 	private byte[] header;		//The header data of the image
 
 	
@@ -66,10 +66,12 @@ public class Map {
 				//Now that we know the file's size, we can read the whole thing:
 				fileData = new byte[this.size];
 				in.read(fileData);
-				
+
 				//Close the input stream, since we now have everything we need.
 				in.close();
 				
+				this.pix = this.extractPix();
+
 				/*
 				//Now that we have the header, we can read the offset data
 				int offSize = this.size - this.offset - 54;	//The size of the offset data.
@@ -98,7 +100,6 @@ public class Map {
 			return;
 		}
 	}
-
 
 
 	//Reads header from the file; initializes values from info contained therein
@@ -138,14 +139,37 @@ public class Map {
 
 		//The number of bits ber pixel is given as a 2-byte (i.e., short) integer
 		this.psize = head.getShort(28);	//Bytes 28-29
-
 		
 		return true;
 	}
 
-	
-	/*These classes are no longer needed.  It would be a good idea to replace them with
-	 * classes that extract the pixel data from this.fileData, but those might not be needed either.
+	// Gets the pixels out of the fileData member array and into a nice int array
+	// This is / should be called after the file has already been read
+	private int[][] extractPix(){
+ 		// header is first 54 bytes.
+		if(psize == 8) {    // Color palette is used.  Each byte = 1 pixel.
+			int[][] pixelData = new int[this.height * this.width][1];
+			for(int i = 54; i < fileData.size(); ++i){
+				pixelData[i][0] = fileData[i];
+			}
+			return pixelData;
+		}
+		else if(psize == 24){
+			int[][] pixelData = new int[this.height * this.width][3];
+			for(int i = 54; i < fileData.size(); i+=3){
+				pixelData[i][0] = fileData[i];
+				pixelData[i][1] = fileData[i+1];
+				pixelData[i][2] = fileData[i+2];
+			}
+			return pixelData;
+		}
+		return new int[0][0];
+	}
+
+
+	/*
+	//These classes are no longer needed.  It would be a good idea to replace them with
+	// classes that extract the pixel data from this.fileData, but those might not be needed either.
 
 	//Reads the pixels from a file, storing them in this.pix
 	//Returns true iff the read is successful, false otherwise.
@@ -182,7 +206,7 @@ public class Map {
 		return true;
 	}
 
-	*/
+	//*/
 	
 	
 	
@@ -235,7 +259,9 @@ public class Map {
 	}
 	public int getSize() { return this.height * this.width; }
 	public Projection getProjection() {return this.projection; }
-
+	public int[][] getPix() { return this.pix; }
+	public void setPix(int[][] newPix) { this.pix = newPix; }
+	public int getPsize() { return this.psize; }
 
 	public String getFileName(){
 		return this.filename;		//The path of the file from which the map data was read in.

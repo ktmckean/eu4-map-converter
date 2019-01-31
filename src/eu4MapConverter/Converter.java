@@ -1,5 +1,7 @@
 package eu4MapConverter;
 
+import java.lang.Math.*;
+
 public static class Converter
 {
 	static Projection outputProjection;	//
@@ -67,6 +69,38 @@ public static class Converter
 
 
 		return input;
+	}
+
+	// A basic Miller-To-Spherical conversion.  Does not account for the American Latitude adjustment or any of the
+	//	fine-tuning necessary for, e.g., rivers
+	static Map FromPdxMiller(Map in)
+	{
+		// int[][] latLong = new byte[in.getPix().length][];
+		int[][] latLong = new int[in.getPix().length][2];
+
+		for (int i = 0; i < in.getPix().length; ++i){
+			int x = i % in.getWidth(); 	// Pixel x coord
+			int y = i / in.getWidth(); 	// Pixel y coord
+
+			latLong[i][0] = x;										  // Longitude
+			latLong[i][1] = 1.25 * Math.arctan(Math.sinh(0.8 * y)); // Latitude
+		}
+
+		// Convert latLong to map.  Keys are ints (in.pix entries), values are <int,int> pairs (long, lat)
+		//
+
+		// Desired output:  A map but instead of the pixels being (x,y) image coords, they should be (lat,long) coordinates
+
+		// For each entry in latLong:
+		//
+
+		// For every entry in pix, define an entry in retvalPix
+		//
+
+		// Smooth lat and long to not conflict
+		Map retval;
+
+		//
 	}
 
 
